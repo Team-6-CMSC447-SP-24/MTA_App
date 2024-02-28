@@ -7,7 +7,7 @@ CREATE TABLE stops (
     stop_name TEXT NOT NULL,
     stop_desc TEXT,
     stop_lat FLOAT,
-    stop_long FLOAT,
+    stop_lon FLOAT,
     zone_id INTEGER,
     stop_url TEXT,
     location_type INTEGER,
@@ -43,7 +43,6 @@ CREATE TABLE routes (
     route_url TEXT,
 
     -- route_color and route_text_color both given as hex ints
-    -- Might be better to convert to int before storing
     route_color TEXT,
     route_text_color TEXT,
     
