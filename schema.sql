@@ -20,9 +20,9 @@ CREATE TABLE stops (
 
 DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
-    route_id INTEGER PRIMARY KEY NOT NULL,
+    route_id INTEGER,
     service_id INTEGER,
-    trip_id INTEGER,
+    trip_id INTEGER PRIMARY KEY NOT NULL,
     trip_headsign TEXT NOT NULL,
     trip_short_name INTEGER,
     direction_id INTEGER,
