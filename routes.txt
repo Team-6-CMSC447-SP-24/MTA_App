@@ -1,0 +1,67 @@
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,network_id,as_route
+11684,1,103,Downtown - Cromwell Bridge,,3,,262727,FFFFFF,core,0
+11686,1,105,Cedonia - Downtown,,3,,262727,FFFFFF,core,0
+11687,1,115,Downtown - Perry Hall,,3,,262727,FFFFFF,core,0
+11688,1,120,White Marsh - Downtown/Hopkins,,3,,262727,FFFFFF,core,0
+11689,1,150,Columbia - Downtown/Harbor East,,3,,262727,FFFFFF,core,0
+11690,1,154,State Center - Carney/Hillendale,,3,,262727,FFFFFF,core,0
+11691,1,160,Downtown/Hopkins - Essex,,3,,262727,FFFFFF,core,0
+14498,1,163,West Baltimore MARC - Tradepoint,,3,,262727,FFFFFF,core,0
+11638,1,21,Woodberry - Canton Crossing,,3,,808285,FFFFFF,core,0
+11639,1,22,Mondawmin - Bayview,,3,,808285,FFFFFF,core,0
+11640,1,26,Patapsco Station - Mondawmin,,3,,808285,FFFFFF,core,0
+11641,1,28,Moravia - Rogers Ave Station,,3,,808285,FFFFFF,core,0
+11642,1,29,Mondawmin - Brooklyn,,3,,808285,FFFFFF,core,0
+11643,1,30,Rogers Ave - Hollander Ridge,,3,,808285,FFFFFF,core,0
+11644,1,31,Sinai Hospital - Security Square,,3,,808285,FFFFFF,core,0
+15552,1,32,Catonsville - Patapsco Station,,3,,808285,FFFFFF,core,0
+11645,1,33,Mt Washington Station - Overlea,,3,,808285,FFFFFF,core,0
+11646,1,34,Falls Rd/Greenspring- Westview,,3,,808285,FFFFFF,core,0
+11647,1,36,Towson Town Center - Fox Ridge,,3,,808285,FFFFFF,core,0
+11648,1,37,Old Court - UMBC/Catonsville,,3,,808285,FFFFFF,core,0
+11649,1,38,Westgate - Medfield,,3,,808285,FFFFFF,core,0
+17178,1,40,Westgate - Selig,,3,,A0A0A4,FFFFFF,core,0
+11650,1,51,Towson - Downtown,,3,,808285,FFFFFF,core,0
+11651,1,52,Greenmount North - Stella Maris,,3,,808285,FFFFFF,core,0
+11652,1,53,State Center - Towson,,3,,808285,FFFFFF,core,0
+11653,1,54,State Center - Carney/Hillendale,,3,,808285,FFFFFF,core,0
+11654,1,56,Downtown - White Marsh,,3,,808285,FFFFFF,core,0
+11655,1,57,Belair - Edison Circulator,,3,,808285,FFFFFF,core,0
+11656,1,59,Moravia - Whispering Woods,,3,,808285,FFFFFF,core,0
+11657,1,62,CCBC Essex - Turner Station,,3,,808285,FFFFFF,core,0
+11658,1,63,Gardenville - Tradepoint Atlantic,,3,,808285,FFFFFF,core,0
+11659,1,65,Downtown - Dundalk,,3,,808285,FFFFFF,core,0
+11660,1,67,Downtown - Marley Neck,,3,,808285,FFFFFF,core,0
+11661,1,69,Patapsco Station - Jumpers Hole,,3,,808285,FFFFFF,core,0
+11662,1,70,Patapsco Station - Annapolis,,3,,808285,FFFFFF,core,0
+11663,1,71,Downtown - Patapsco Station,,3,,808285,FFFFFF,core,0
+11664,1,73,State Center - Patapsco Station,,3,,808285,FFFFFF,core,0
+11665,1,75,Patapsco Station - Arundel Mills,,3,,808285,FFFFFF,core,0
+11666,1,76,CCBC - Downtown,,3,,808285,FFFFFF,core,0
+11667,1,77,West Baltimore MARC - Catonsville,,3,,808285,FFFFFF,core,0
+11668,1,78,Downtown - CMS,,3,,808285,FFFFFF,core,0
+11669,1,79,Mondawmin - CMS,,3,,808285,FFFFFF,core,0
+11670,1,80,Downtown - Rogers Ave Station,,3,,808285,FFFFFF,core,0
+11671,1,81,Deer Park - Milford Mill Station,,3,,808285,FFFFFF,core,0
+11672,1,82,Park Circle - Reisterstown Plaza,,3,,808285,FFFFFF,core,0
+11673,1,83,Mondawmin - Old Court Station,,3,,808285,FFFFFF,core,0
+11674,1,85,Penn-North - Milford Mill,,3,,808285,FFFFFF,core,0
+11675,1,87,Glyndon - Owings Mills,,3,,808285,FFFFFF,core,0
+11676,1,89,Rogers Ave - Owings Mills,,3,,808285,FFFFFF,core,0
+11677,1,91,Mondawmin - Sinai Hospital,,3,,808285,FFFFFF,core,0
+11678,1,92,Glen - Baas & Talmudical,,3,,808285,FFFFFF,core,0
+11679,1,93,Towson - Hunt Valley,,3,,808285,FFFFFF,core,0
+11680,1,94,Fort McHenry - Sinai Hospital,,3,,808285,FFFFFF,core,0
+11681,1,95,Downtown - Roland Park,,3,,808285,FFFFFF,core,0
+11734,1,CityLink BLUE,CMS - Johns Hopkins Bayview,,3,,0072BC,FFFFFF,core,0
+11735,1,CityLink BROWN,Overlea - Downtown,,3,,6E4C2F,FFFFFF,core,0
+11736,1,CityLink GOLD,Walbrook Junction - Canton,,3,,8A7938,FFFFFF,core,0
+11737,1,CityLink GREEN,Downtown - Towson,,3,,008343,FFFFFF,core,0
+11738,1,CityLink LIME,NW Hospital - Harbor East,,3,,6CA043,FFFFFF,core,0
+11739,1,CityLink NAVY,Mondawmin - Dundalk,,3,,2E3192,FFFFFF,core,0
+11740,1,CityLink ORANGE,Essex - West Baltimore MARC,,3,,E7731F,FFFFFF,core,0
+11741,1,CityLink PINK,Cedonia - West Baltimore MARC,,3,,D60080,FFFFFF,core,0
+11742,1,CityLink PURPLE,City Hall - Paradise/Catonsville,,3,,851F83,FFFFFF,core,0
+11743,1,CityLink RED,Downtown - Towson/Lutherville,,3,,D71920,FFFFFF,core,0
+11744,1,CityLink SILVER,Curtis Bay - Hopkins/Morgan State,,3,,48626F,FFFFFF,core,0
+11745,1,CityLink YELLOW,Mondawmin - Patapsco,,3,,F9E500,000000,core,0
