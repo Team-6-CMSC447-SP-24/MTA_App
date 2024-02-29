@@ -33,7 +33,7 @@ def getRealTimeTripUpdates():
             allTrips.append(currTrip)
     return allTrips
 
-def getRouteName(database, route_id):
+def getRouteName(route_id):
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
@@ -53,7 +53,7 @@ def getRouteName(database, route_id):
         conn.close()
     return
 
-def getStopName(database, stop_id):
+def getStopName(stop_id):
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
@@ -73,7 +73,7 @@ def getStopName(database, stop_id):
         conn.close()
     return
 
-def getTripName(database, trip_id):
+def getTripName(trip_id):
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
@@ -94,17 +94,17 @@ def getTripName(database, trip_id):
 
 def showAllTrips(tripsList):
     for trip in tripsList:
-        thisName = getRouteName(database, trip.routeId)
+        thisName = getRouteName(trip.routeId)
         print(f'\n{thisName}')
         count = 1
         for i in range (len(trip.stopTimeUpdate)):
-            print(f'{count}.\t{getStopName(database, trip.stopTimeUpdate[i]['stopId'])}')
+            print(f'{count}.\t{getStopName(trip.stopTimeUpdate[i]['stopId'])}')
             count +=1
     return
 
 def showAllVehicles(vehiclesList):
     for vehicle in vehiclesList:
-        thisRouteName = getRouteName(database, vehicle.routeId)
+        thisRouteName = getRouteName(vehicle.routeId)
         print(f"Vehicle {vehicle.id} at ({vehicle.latitude}, {vehicle.longitude}), driving {thisRouteName}")
     return
 
