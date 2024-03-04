@@ -2,6 +2,7 @@ import json
 import http.client
 import sqlite3
 from mta_classes import Vehicle, Trip
+from flask import Flask, render_template, request
 
 database = 'database.db'
 swiftlyConnection = http.client.HTTPSConnection("api.goswift.ly")
@@ -98,7 +99,7 @@ def showAllTrips(tripsList):
         print(f'\n{thisName}')
         count = 1
         for i in range (len(trip.stopTimeUpdate)):
-            print(f'{count}.\t{getStopName(trip.stopTimeUpdate[i]['stopId'])}')
+            print(f"{count}.\t{getStopName(trip.stopTimeUpdate[i]['stopId'])}")
             count +=1
     return
 
@@ -108,10 +109,32 @@ def showAllVehicles(vehiclesList):
         print(f"Vehicle {vehicle.id} at ({vehicle.latitude}, {vehicle.longitude}), driving {thisRouteName}")
     return
 
-if __name__ == "__main__":    
-    rtVehicles = getRealTimeVehiclePositions()
+def getAllTrips(tripsList): #put trips in array
+    trips = []
+    capacity = 20
+    for trip in tripsList:
+        if capacity == 0:
+            break
+        thisName = (f"{getRouteName(trip.routeId)}:")
+        count = 1
+        stops = ""
+        #for i in range (len(trip.stopTimeUpdate)):
+        #    thisName += (f"{count}.{getStopName(trip.stopTimeUpdate[i]['stopId'])}")
+        #    count +=1
+        trips.append(thisName)
+        capacity-= 1
+    return trips
+
+app = Flask(__name__)
+@app.route("/")
+def home():   
     rtTrips = getRealTimeTripUpdates()
+    return getAllTrips(rtTrips) #TODO create html and use rendertemplate
+
+if __name__ == "__main__":    
+    #rtVehicles = getRealTimeVehiclePositions()
+    #rtTrips = getRealTimeTripUpdates()
     
-    showAllVehicles(rtVehicles)
-    showAllTrips(rtTrips)
-    
+   # showAllVehicles(rtVehicles)
+   # showAllTrips(rtTrips)
+    app.run(debug=True)
