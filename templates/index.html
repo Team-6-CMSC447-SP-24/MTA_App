@@ -7,14 +7,14 @@
         <div class="div-table-row">
         <div class="div-table-id-col" style="font-weight: bold; text-align: center">&ensp;Bus ID</div>
         <div  class="div-table-name-col" style="font-weight: bold; text-align: center">&ensp;Route Name</div>
-        <div  class="div-table-col" style="font-weight: bold; text-align: center">&ensp;Upcoming Stops</div>
+        <div  class="div-table-col" style="font-weight: bold">&ensp;Trip Updates</div>
         </div>
         
         {% for vehicle in vehicles %}
         <div>
             <div class="div-table-id-col">&ensp;{{ vehicle['id'] }}</div>
             <div class="div-table-name-col">&ensp;{{ vehicle['name'] }}</div>
-            <div class="div-table-col">&ensp;<a href="https://www.google.com">See route</a></div>
+            <div class="div-table-col">&ensp;<a href="https://www.google.com">See stops</a></div>
         </div>
         {% endfor %}
 
