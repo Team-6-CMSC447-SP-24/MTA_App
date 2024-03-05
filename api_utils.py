@@ -12,7 +12,7 @@ swiftlyHeaders = {
     'Authorization': "1ee674f78037045f5e600a63047d869b"
     }
 
-def getRealTimeVehiclePositions():
+def getRealTimeVehiclePositions() -> list[Vehicle]:
     allVehicles = []
     swiftlyConnection.request("GET", "/real-time/mta-maryland/gtfs-rt-vehicle-positions?format=json", headers=swiftlyHeaders)
     res = swiftlyConnection.getresponse()
@@ -23,7 +23,7 @@ def getRealTimeVehiclePositions():
             allVehicles.append(currVehicle)
     return  allVehicles
 
-def getRealTimeTripUpdates():
+def getRealTimeTripUpdates() -> list[Trip]:
     allTrips = []
     swiftlyConnection.request("GET", "/real-time/mta-maryland/gtfs-rt-trip-updates?format=json", headers=swiftlyHeaders)
     swiftlyRes = swiftlyConnection.getresponse()
@@ -34,7 +34,7 @@ def getRealTimeTripUpdates():
             allTrips.append(currTrip)
     return allTrips
 
-def getRouteName(route_id):
+def getRouteName(route_id: int) -> str:
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
@@ -54,7 +54,7 @@ def getRouteName(route_id):
         conn.close()
     return
 
-def getStopName(stop_id):
+def getStopName(stop_id: int) -> str:
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
@@ -74,7 +74,7 @@ def getStopName(stop_id):
         conn.close()
     return
 
-def getTripName(trip_id):
+def getTripName(trip_id: int) -> str:
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
@@ -93,7 +93,7 @@ def getTripName(trip_id):
         conn.close()
     return
 
-def showAllTrips(tripsList):
+def showAllTrips(tripsList: list[Vehicle]) -> None:
     for trip in tripsList:
         thisName = getRouteName(trip.routeId)
         print(f'\n{thisName}')
@@ -103,13 +103,13 @@ def showAllTrips(tripsList):
             count +=1
     return
 
-def showAllVehicles(vehiclesList):
+def showAllVehicles(vehiclesList: list[Vehicle]) -> None:
     for vehicle in vehiclesList:
         thisRouteName = getRouteName(vehicle.routeId)
         print(f"Vehicle {vehicle.id} at ({vehicle.latitude}, {vehicle.longitude}), driving {thisRouteName}")
     return
 
-def getAllTrips(tripsList): #put trips in array
+def getAllTrips(tripsList: list[Trip]): #put trips in array
     trips = []
     capacity = 20
     for trip in tripsList:
@@ -125,16 +125,13 @@ def getAllTrips(tripsList): #put trips in array
         capacity-= 1
     return trips
 
-app = Flask(__name__)
-@app.route("/")
-def home():   
+def main():
+    rtVehicles = getRealTimeVehiclePositions()
     rtTrips = getRealTimeTripUpdates()
-    return getAllTrips(rtTrips) #TODO create html and use rendertemplate
-
-if __name__ == "__main__":    
-    #rtVehicles = getRealTimeVehiclePositions()
-    #rtTrips = getRealTimeTripUpdates()
+    showAllVehicles(rtVehicles)
+    showAllTrips(rtTrips)
     
-   # showAllVehicles(rtVehicles)
-   # showAllTrips(rtTrips)
-    app.run(debug=True)
+
+if __name__ == "__main__":
+    main()
+    
