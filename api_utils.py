@@ -109,7 +109,7 @@ def showAllVehicles(vehiclesList: list[Vehicle]) -> None:
         print(f"Vehicle {vehicle.id} at ({vehicle.latitude}, {vehicle.longitude}), driving {thisRouteName}")
     return
 
-def getAllTrips(tripsList: list[Trip]): #put trips in array
+def getAllTrips(tripsList: list[Trip]) -> list[str]: #put trips in array
     trips = []
     capacity = 20
     for trip in tripsList:
