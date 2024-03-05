@@ -109,22 +109,6 @@ def showAllVehicles(vehiclesList: list[Vehicle]) -> None:
         print(f"Vehicle {vehicle.id} at ({vehicle.latitude}, {vehicle.longitude}), driving {thisRouteName}")
     return
 
-def getAllTrips(tripsList: list[Trip]) -> list[str]: #put trips in array
-    trips = []
-    capacity = 20
-    for trip in tripsList:
-        if capacity == 0:
-            break
-        thisName = (f"{getRouteName(trip.routeId)}:")
-        count = 1
-        stops = ""
-        #for i in range (len(trip.stopTimeUpdate)):
-        #    thisName += (f"{count}.{getStopName(trip.stopTimeUpdate[i]['stopId'])}")
-        #    count +=1
-        trips.append(thisName)
-        capacity-= 1
-    return trips
-
 def main():
     rtVehicles = getRealTimeVehiclePositions()
     rtTrips = getRealTimeTripUpdates()
@@ -133,5 +117,5 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
-    
+    # main()
+    pass
