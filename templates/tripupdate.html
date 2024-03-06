@@ -1,0 +1,20 @@
+<!-- Based on code from https://www.digitalocean.com/community/tutorials/how-to-use-an-sqlite-database-in-a-flask-application -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Upcoming Stops {% endblock %}</h1>
+    <div class="div-table">
+        <div class="div-table-row">
+            <div class="div-table-stopSeq-col" style="font-weight: bold;">&ensp;#</div>
+            <div  class="div-table-stopName-col" style="font-weight: bold;">&ensp;Stop Name</div>
+        </div>
+        
+        {% for stop in stops %}
+        <div class="div-table-row">
+            <div class="div-table-stopSeq-col">&ensp;{{ stop['seq'] }}</div>
+            <div  class="div-table-stopName-col">&ensp;{{ stop['name'] }}</div>
+        </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
