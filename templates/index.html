@@ -14,7 +14,7 @@
         <div>
             <div class="div-table-id-col">&ensp;{{ vehicle['id'] }}</div>
             <div class="div-table-name-col">&ensp;{{ vehicle['name'] }}</div>
-            <div class="div-table-col">&ensp;<a href="https://www.google.com">See stops</a></div>
+            <div class="div-table-col">&ensp;<a href="{{ url_for('tripupdate', id=vehicle['id']) }}">See stops</a></div>
         </div>
         {% endfor %}
 
