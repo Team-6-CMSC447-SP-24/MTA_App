@@ -93,7 +93,25 @@ def getTripName(trip_id: int) -> str:
         conn.close()
     return
 
-def showAllTrips(tripsList: list[Vehicle]) -> None:
+def ParseVehicles(currentVehicles: list[Vehicle]) -> list[dict[str, str]]:
+    tableInfo = []
+    for vehicle in currentVehicles:
+        thisId = vehicle.tripId
+        thisRouteName = getRouteName(vehicle.routeId)
+        tableInfo.append({'id': thisId, 'name': thisRouteName})
+    return tableInfo
+
+def ParseStops(currentTrip: Trip) -> list[dict[str, str]]:
+    seqNum = ""
+    name = ""
+    theseStops = []
+    for i in range (len(currentTrip.stopTimeUpdate)):
+        seqNum = currentTrip.stopTimeUpdate[i]['stopSequence']
+        name = getStopName(currentTrip.stopTimeUpdate[i]['stopId'])
+        theseStops.append({'seq': seqNum, 'name': name})
+    return theseStops
+
+def showAllTrips(tripsList: list[Trip]) -> None:
     for trip in tripsList:
         thisName = getRouteName(trip.routeId)
         print(f'\n{thisName}')
@@ -117,5 +135,4 @@ def main():
     
 
 if __name__ == "__main__":
-    # main()
-    pass
+    main()
