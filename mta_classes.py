@@ -1,5 +1,5 @@
 class Trip:
-    def __init__(self, tripDict):
+    def __init__(self, tripDict: dict):
         self.id = tripDict.get('id', None)
         tripInfo = tripDict.get('tripUpdate', {})
 
@@ -28,7 +28,7 @@ class Trip:
 
 
 class Vehicle:
-    def __init__(self, vehicleDict):
+    def __init__(self, vehicleDict: dict):
         self.id = vehicleDict['id']
         vehicleInfo = vehicleDict.get('vehicle', {})  # get() to handle missing info if necessary
 

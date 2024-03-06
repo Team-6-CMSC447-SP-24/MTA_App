@@ -1,9 +1,9 @@
 import sqlite3
 import csv
 
-def initRoutesTable(thisCur):
+def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
     routes = []
-    with open("routes.txt", "r") as f:
+    with open("resources/routes.txt", "r") as f:
         reader = csv.DictReader(f, delimiter=",")
         for row in reader:
             routes.append(dict(row))
@@ -32,9 +32,9 @@ def initRoutesTable(thisCur):
 
     return
 
-def initTripsTable(thisCur):
+def initTripsTable(thisCur: sqlite3.Cursor) -> None:
     trips = []
-    with open("trips.txt", "r") as f:
+    with open("resources/trips.txt", "r") as f:
         reader = csv.DictReader(f, delimiter=",")
         for row in reader:
             trips.append(dict(row))
@@ -61,9 +61,9 @@ def initTripsTable(thisCur):
         
     return
 
-def initStopsTable(thisCur):
+def initStopsTable(thisCur: sqlite3.Cursor) -> None:
     stops = []
-    with open("stops.txt", "r") as f:
+    with open("resources/stops.txt", "r") as f:
         reader = csv.DictReader(f, delimiter=",")
         for row in reader:
             stops.append(dict(row))
