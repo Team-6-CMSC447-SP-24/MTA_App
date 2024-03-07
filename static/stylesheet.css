@@ -28,33 +28,33 @@ nav a {
     border: 1px solid #000000;
     background-color: lightgrey;
 }
-.div-table-name-col {
-    float: left;
-    display: table-column;
-    border: 1px solid #000000;
-    width: 300px;
-}
-.div-table-id-col {
-    float: left;
-    display: table-column;
-    border: 1px solid #000000;
-    width: 75px;
-}
-.div-table-stopSeq-col {
+.div-table-stopSeq-extratiny {
     float: left;
     display: table-column;
     border: 1px solid #000000;
     width: 30px;
 }
-.div-table-stopName-col {
+.div-table-col-tiny {
     float: left;
     display: table-column;
     border: 1px solid #000000;
-    width: 400px;
+    width: 75px;
 }
-.div-table-col {
+.div-table-col-small {
     float: left;
     display: table-column;
     border: 1px solid #000000;
     width: 125px;
+}
+.div-table-col-medium {
+    float: left;
+    display: table-column;
+    border: 1px solid #000000;
+    width: 300px;
+}
+.div-table-col-large {
+    float: left;
+    display: table-column;
+    border: 1px solid #000000;
+    width: 400px;
 }
