@@ -7,3 +7,4 @@ vehicle_json.json
 __pycache__/*.pyc
 __pycache__/
 venv/
+__pycache__/mta_classes.cpython-312.pyc
