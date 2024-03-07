@@ -4,5 +4,6 @@ database.db
 trips_json.json
 vehicle_json.json
 
+__pycache__/*.pyc
 __pycache__/
 venv/
