@@ -96,9 +96,11 @@ def getTripName(trip_id: str) -> str:
 def ParseVehicles(currentVehicles: list[Vehicle]) -> list[dict[str, str]]:
     tableInfo = []
     for vehicle in currentVehicles:
-        thisId = vehicle.tripId
-        thisRouteName = getRouteName(vehicle.routeId)
-        tableInfo.append({'id': thisId, 'name': thisRouteName})
+        tableInfo.append({'busId': vehicle.id,
+                          'tripId': vehicle.tripId,
+                          'name': getRouteName(vehicle.routeId), 
+                          'occupancy': ParseOccupancy(vehicle.occupancyStatus),
+                          })
     return tableInfo
 
 def ParseStops(currentTrip: Trip) -> list[dict[str, str]]:
@@ -110,6 +112,26 @@ def ParseStops(currentTrip: Trip) -> list[dict[str, str]]:
         name = getStopName(currentTrip.stopTimeUpdate[i]['stopId'])
         theseStops.append({'seq': seqNum, 'name': name})
     return theseStops
+
+def ParseOccupancy(status: str) -> str:
+    thisStatus = ""
+    if status == 'EMPTY':
+        thisStatus = 'Empty'
+    elif status == 'MANY_SEATS_AVAILABLE':
+        thisStatus = 'Many seats'
+    elif status == 'FEW_SEATS_AVAILABLE':
+        thisStatus = 'Few seats'
+    elif status == 'STANDING_ROOM_ONLY':
+        thisStatus = 'Standing'
+    elif status == 'CRUSHED_STANDING_ROOM_ONLY':
+        thisStatus = 'Crushed'
+    elif status == 'FULL':
+        thisStatus = 'Full'
+    elif status == 'NOT_ACCEPTING_PASSENGERS':
+        thisStatus = 'Not accepting'
+    else:
+        thisStatus = 'Not reported'
+    return thisStatus
 
 def showAllTrips(tripsList: list[Trip]) -> None:
     for trip in tripsList:
