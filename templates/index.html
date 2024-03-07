@@ -1,20 +1,22 @@
-<!-- Based on code from https://www.digitalocean.com/community/tutorials/how-to-use-an-sqlite-database-in-a-flask-application -->
 {% extends 'base.html' %}
 
 {% block content %}
     <h1>{% block title %} Vehicles {% endblock %}</h1>
     <div class="div-table">
         <div class="div-table-row">
-            <div class="div-table-id-col" style="font-weight: bold; text-align: center">&ensp;Bus ID</div>
-            <div  class="div-table-name-col" style="font-weight: bold; text-align: center">&ensp;Route Name</div>
-            <div  class="div-table-col" style="font-weight: bold">&ensp;Trip Updates</div>
+            <div class="div-table-col-tiny" style="font-weight: bold">&ensp;Bus #</div>
+            <div class="div-table-col-medium" style="font-weight: bold; text-align: center">&ensp;Route Name</div>
+            <div class="div-table-col-large" style="font-weight: bold; width: 150px">&ensp;Occupancy</div>
+            <div class="div-table-col-small" style="font-weight: bold">&ensp;Trip Updates</div>
+            
         </div>
         
         {% for vehicle in vehicles %}
         <div>
-            <div class="div-table-id-col">&ensp;{{ vehicle['id'] }}</div>
-            <div class="div-table-name-col">&ensp;{{ vehicle['name'] }}</div>
-            <div class="div-table-col">&ensp;<a href="{{ url_for('tripupdate', id=vehicle['id']) }}">See stops</a></div>
+            <div class="div-table-col-tiny">&ensp;{{ vehicle.busId }}</div>
+            <div class="div-table-col-medium">&ensp;{{ vehicle.name }}</div>
+            <div class="div-table-col-large" style="width: 150px">&ensp;{{ vehicle.occupancy }}</div>
+            <div class="div-table-col-small">&ensp;<a href="{{ url_for('tripupdate', id=vehicle.tripId) }}">See stops</a></div>
         </div>
         {% endfor %}
 
