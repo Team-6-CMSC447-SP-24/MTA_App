@@ -24,5 +24,3 @@ def tripupdate(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-    # showAllVehicles(rtVehicles)
-    #showAllTrips(rtTrips)
