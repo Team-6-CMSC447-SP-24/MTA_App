@@ -101,7 +101,8 @@ def ParseVehicles(currentVehicles: list[Vehicle]) -> list[dict[str, str]]:
                           'name': getRouteName(vehicle.routeId), 
                           'occupancy': ParseOccupancy(vehicle.occupancyStatus),
                           })
-    return tableInfo
+    tableInfo_sorted = sorted(tableInfo, key=lambda x: x['name'])
+    return tableInfo_sorted
 
 def ParseStops(currentTrip: Trip) -> list[dict[str, str]]:
     seqNum = ""
