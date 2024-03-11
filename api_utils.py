@@ -3,13 +3,14 @@ import http.client
 import sqlite3
 from mta_classes import Vehicle, Trip
 from flask import Flask, render_template, request
+from credentials import mta_key, google_key
 
 database = 'database.db'
 swiftlyConnection = http.client.HTTPSConnection("api.goswift.ly")
 
 swiftlyHeaders = {
     'Content-Type': "application/json",
-    'Authorization': "1ee674f78037045f5e600a63047d869b"
+    'Authorization': mta_key
     }
 
 def getRealTimeVehiclePositions() -> list[Vehicle]:

@@ -1,5 +1,8 @@
 database.db
 
+# safeguard API keys
+credentials.py
+
 # These two are just example returns from rtVehiclePositions() and rtTripUpdates()
 trips_json.json
 vehicle_json.json
