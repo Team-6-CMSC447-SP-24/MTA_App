@@ -18,8 +18,15 @@ def tripupdate(id):
         if int(trip.tripId) == int(id):
             thisTrip = trip
     theseStops= ParseStops(thisTrip)
-    
-    return render_template('tripupdate.html', stops=theseStops)
+
+    rtVehicles = getRealTimeVehiclePositions()
+    for vehicle in rtVehicles:
+        if int(vehicle.tripId) == int(id):
+            thisVehicle = vehicle
+    lat = thisVehicle.latitude
+    long = thisVehicle.longitude
+
+    return render_template('tripupdate.html', stops=theseStops, vehicleLat=lat, vehicleLong=long)
     
 
 if __name__ == "__main__":
