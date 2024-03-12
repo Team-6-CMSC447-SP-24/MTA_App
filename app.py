@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
 from api_utils import *
+from credentials import google_key
 
 
 app = Flask(__name__)
@@ -26,7 +27,7 @@ def tripupdate(id):
     lat = thisVehicle.latitude
     long = thisVehicle.longitude
 
-    return render_template('tripupdate.html', stops=theseStops, vehicleLat=lat, vehicleLong=long)
+    return render_template('tripupdate.html', stops=theseStops, vehicleLat=lat, vehicleLong=long, gKey=google_key)
     
 
 if __name__ == "__main__":
