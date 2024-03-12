@@ -1,11 +1,14 @@
 # MTA_App
 
 ## Run Instructions
-* Create virtual machine: <br>
+* Create virtual environment: <br>
   + ex: python -m venv venv <br>
   + venv\Scripts\activate <br>
+  + pip install flask
+  + set FLASK_APP=app
+  + set FLASK_ENV=development
 * python init_db.py <br>
-* python -m flask --app .\test.py run  <br>
+* python app.py  <br>
 
 ## stops.txt, trips.txt, routes.txt
 These files are provided by the city for developer use. They're comma-delimited and contain the General Transit Feed Specification (GTFS) information for various aspects of the city bus public transportation in Baltimore.
