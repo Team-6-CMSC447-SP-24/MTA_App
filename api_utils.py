@@ -151,6 +151,49 @@ def showAllVehicles(vehiclesList: list[Vehicle]) -> None:
         print(f"Vehicle {vehicle.id} at ({vehicle.latitude}, {vehicle.longitude}), driving {thisRouteName}")
     return
 
+def searchBusId(bus_id, vehicles: list[Vehicle]):
+    acceptedVehicles = []
+    for vehicle in vehicles:
+        if bus_id in vehicle.id:
+            acceptedVehicles.append(vehicle)
+    return acceptedVehicles
+
+def searchTripId(trip_id, vehicles: list[Vehicle]):
+    acceptedVehicles = []
+    for vehicle in vehicles:
+        if trip_id in vehicle.tripId:
+            acceptedVehicles.append(vehicle)
+    return acceptedVehicles
+
+def searchRouteName(route_name, vehicles: list[Vehicle]):
+    acceptedVehicles = []
+    for vehicle in vehicles:
+        if route_name in getRouteName(vehicle.route):
+            acceptedVehicles.append(vehicle)
+    return acceptedVehicles
+
+def findStop(stop_name, currentTrip: Trip) -> int:
+    seqNum = ""
+    name = ""
+    theseStops = []
+    for i in range (len(currentTrip.stopTimeUpdate)):
+        seqNum = currentTrip.stopTimeUpdate[i]['stopSequence']
+        if stop_name in getStopName(currentTrip.stopTimeUpdate[i]['stopId']):
+            return 1
+    return 0
+
+def searchStopName(stop_name, trips: list[Trip], vehicles : list[Vehicle]): #Can shorten time complexity if its possible to make a Vehicle variable in Trip
+    acceptedVehicles = []
+    vehicleIds = []
+    for trip in trips:
+        if findStop(stop_name, trip):
+            if trip.vehicleId not in vehicleIds:
+                vehicleIds.append(trip.vehicleId)
+                for vehicle in vehicles:
+                    if vehicle.vehicleId == trip.vehicleId:
+                        acceptedVehicles.append(vehicle)
+    return acceptedVehicles
+    
 def main() -> None:
     rtVehicles = getRealTimeVehiclePositions()
     rtTrips = getRealTimeTripUpdates()
