@@ -5,6 +5,7 @@
   + ex: python -m venv venv <br>
   + venv\Scripts\activate <br>
   + pip install flask
+  + pip install Flask-Materials
   + set FLASK_APP=app
   + set FLASK_ENV=development
 * python init_db.py <br>
