@@ -2,23 +2,26 @@
 
 {% block content %}
     <h1>{% block title %} Vehicles {% endblock %}</h1>
-    <div class="div-table">
-        <div class="div-table-row">
-            <div class="div-table-col-tiny" style="font-weight: bold">&ensp;Bus #</div>
-            <div class="div-table-col-medium" style="font-weight: bold; text-align: center">&ensp;Route Name</div>
-            <div class="div-table-col-large" style="font-weight: bold; width: 150px">&ensp;Occupancy</div>
-            <div class="div-table-col-small" style="font-weight: bold">&ensp;Trip Updates</div>
-            
-        </div>
-        
-        {% for vehicle in vehicles %}
-        <div>
-            <div class="div-table-col-tiny">&ensp;{{ vehicle.busId }}</div>
-            <div class="div-table-col-medium">&ensp;{{ vehicle.name }}</div>
-            <div class="div-table-col-large" style="width: 150px">&ensp;{{ vehicle.occupancy }}</div>
-            <div class="div-table-col-small">&ensp;<a href="{{ url_for('tripupdate', id=vehicle.tripId) }}">See stops</a></div>
-        </div>
-        {% endfor %}
-
+    <div class="mdc-data-table">
+      <table class="mdc-data-table__table" aria-label="Dessert calories">
+        <thead>
+          <tr class="mdc-data-table__header-row">
+            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Bus #</th>
+            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Route Name</th>
+            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Occupancy</th>
+            <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Trip Updates</th>
+          </tr>
+        </thead>
+        <tbody class="mdc-data-table__content">
+          {% for vehicle in vehicles %}
+          <tr class="mdc-data-table__row">
+            <td class="mdc-data-table__cell">{{ vehicle.busId }}</td>
+            <td class="mdc-data-table__cell">{{ vehicle.name }}</td>
+            <td class="mdc-data-table__cell">{{ vehicle.occupancy }}</td>
+            <td class="mdc-data-table__cell"><a href="{{ url_for('tripupdate', id=vehicle.tripId) }}">See stops</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 {% endblock %}

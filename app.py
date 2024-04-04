@@ -1,12 +1,9 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
 from api_utils import *
 from credentials import google_key
-from flask_material import Material
 
 
 app = Flask(__name__)
-Material(app)
-
 @app.route('/')
 def index():
     rtVehicles = getRealTimeVehiclePositions()
