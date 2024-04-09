@@ -2,21 +2,35 @@
 
 {% block content %}
     <h1>{% block title %} Upcoming Stops {% endblock %}</h1>
-    <div class="div-table">
-        <div class="div-table-row">
-            <div class="div-table-col-tiny" style="font-weight: bold;">&ensp;#</div>
-            <div  class="div-table-col-large" style="font-weight: bold; width: 450px">&ensp;Stop Name</div>
-        </div>
-        
-        {% for stop in stops %}
-        <div>
-            <div class="div-table-col-tiny">&ensp;{{ stop.seq }}</div>
-            <div  class="div-table-col-large" style="width: 450px">&ensp;{{ stop.name|title }}</div>
-        </div>
-        {% endfor %}
+    <div class="mdc-data-table" style="float: left; width: 25%">
+         <table class="mdc-data-table__table" aria-label="Dessert calories">
+            <thead>
+               <tr class="mdc-data-table__header-row">
+                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col">&ensp;#</th>
+                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col"> Stop Name</th>
+               </tr>
+            </thead>
+            {% for stop in stops %}
+             <tbody class="mdc-data-table__content" >
 
+                 <tr class="mdc-data-table__row" onclick="dataClick(this)" >
+                    <td class="mdc-data-table__cell">&ensp;{{ stop.seq }}</td>
+                    <td class="mdc-data-table__cell">&ensp;{{ stop.name|title }}</td>
+                 </tr>
+            {% endfor %}
+             </tbody>
+
+         </table>
     </div>
-    <div id="map"></div>
+    <script>
+    function dataClick(row){
+        alert(row.innerHTML);
+
+
+    }
+    </script>
+
+    <div id="map" style="float: right; width: 75%;height: 600px;position:relative;"></div>
     <script>
         const key = "{{ gKey }}";
         (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
