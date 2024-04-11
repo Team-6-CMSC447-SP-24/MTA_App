@@ -75,7 +75,7 @@ def getStopName(stop_id: str) -> str:
         conn.close()
     return
 
-def getStopCoords(stop_id: int):
+def getStopCoords(stop_id: int) -> tuple[str, str]:
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
 
