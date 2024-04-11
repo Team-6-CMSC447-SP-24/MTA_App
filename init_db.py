@@ -4,6 +4,7 @@ import requests
 import zipfile
 import io
 import os
+from datetime import datetime
 
 def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
     routes = []
@@ -112,13 +113,29 @@ def updateResourceFiles():
         print(f"Failed to download the ZIP file from {url}")
         return
 
+
     with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
         for file_name in files_to_extract:
             if file_name in zip_file.namelist():
-                zip_file.extract(file_name, output_directory)
-                print(f"Extracted {file_name} to {output_directory}")
+                zip_info = zip_file.getinfo(file_name)
+                output_file_path = os.path.join(output_directory, file_name)
+                overwrite_file = True
+
+                if os.path.exists(output_file_path):
+                    existing_file_mtime = datetime.fromtimestamp(os.path.getmtime(output_file_path))
+                    zip_file_mtime = datetime.fromtimestamp(zip_info.date_time[5])
+
+                    if zip_file_mtime <= existing_file_mtime:
+                        overwrite_file = False
+
+                if overwrite_file:
+                    zip_file.extract(file_name, output_directory)
+                    print(f"Extracted {file_name} to {output_directory}")
+                else:
+                    print(f"Skipping {file_name} as it's not newer than the existing file")
             else:
                 print(f"{file_name} not found in the ZIP file")
+
 
 if __name__ == "__main__":
     updateResourceFiles()
