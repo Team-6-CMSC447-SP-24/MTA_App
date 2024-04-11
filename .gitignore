@@ -1,4 +1,5 @@
 database.db
+MTA_viewer.zip
 
 # safeguard API keys
 credentials.py
