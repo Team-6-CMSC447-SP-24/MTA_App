@@ -75,6 +75,25 @@ def getStopName(stop_id: str) -> str:
         conn.close()
     return
 
+def getStopCoords(stop_id: int):
+    conn = sqlite3.connect(database)
+    cursor = conn.cursor()
+
+    try:
+        query = "SELECT stop_lat, stop_lon FROM stops WHERE stop_id = ?"
+        cursor.execute(query, (stop_id,))
+        row = cursor.fetchone()
+
+        if row:
+            thisStopLat, thisStopLon = row
+            return (thisStopLat, thisStopLon)
+        else:
+            return None
+    except sqlite3.Error as e:
+        print(f"Error reading from the database: {e}")
+    finally:
+        conn.close()
+
 def getTripName(trip_id: str) -> str:
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
@@ -141,7 +160,10 @@ def showAllTrips(tripsList: list[Trip]) -> None:
         print(f'\n{thisName}')
         count = 1
         for i in range (len(trip.stopTimeUpdate)):
-            print(f"{count}.\t{getStopName(trip.stopTimeUpdate[i]['stopId'])}")
+            curr = trip.stopTimeUpdate[i]['stopId']
+            name = getStopName(curr)
+            lat, lon = getStopCoords(curr)
+            print(f"{count}.\t{name} ({lat}, {lon})")
             count +=1
     return
 
@@ -193,11 +215,11 @@ def searchStopName(stop_name, trips: list[Trip], vehicles : list[Vehicle]): #Can
                     if vehicle.vehicleId == trip.vehicleId:
                         acceptedVehicles.append(vehicle)
     return acceptedVehicles
-    
+
 def main() -> None:
-    rtVehicles = getRealTimeVehiclePositions()
+    # rtVehicles = getRealTimeVehiclePositions()
     rtTrips = getRealTimeTripUpdates()
-    showAllVehicles(rtVehicles)
+    # showAllVehicles(rtVehicles)
     showAllTrips(rtTrips)
     
 
