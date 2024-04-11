@@ -1,5 +1,9 @@
 import sqlite3
 import csv
+import requests
+import zipfile
+import io
+import os
 
 def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
     routes = []
@@ -95,7 +99,30 @@ def initStopsTable(thisCur: sqlite3.Cursor) -> None:
         
     return
 
+def updateResourceFiles():
+    url = "https://feeds.mta.maryland.gov/gtfs/local-bus"
+    files_to_extract = ["stops.txt", "trips.txt", "routes.txt"]
+    output_directory = "./resources"
+    
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+
+    response = requests.get(url)
+    if response.status_code != 200:
+        print(f"Failed to download the ZIP file from {url}")
+        return
+
+    with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
+        for file_name in files_to_extract:
+            if file_name in zip_file.namelist():
+                zip_file.extract(file_name, output_directory)
+                print(f"Extracted {file_name} to {output_directory}")
+            else:
+                print(f"{file_name} not found in the ZIP file")
+
 if __name__ == "__main__":
+    updateResourceFiles()
+    
     connection = sqlite3.connect('database.db')
     with open('schema.sql') as f:
         connection.executescript(f.read())
