@@ -10,10 +10,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('index') }}">Home</a>
+
+    <div class="title">MTA Tracker</div>
+    <hr/>
+    <nav class = "nav-bar">
+
+
+        <button class="button" >
+                <a  href="{{ url_for('index') }}">Local Bus Routes</a >
+        </button>
+         <button class="button" >
+                <a  href="{{ url_for('index') }}">MARC Train</a >
+        </button>
+         <button class="button" >
+                <a  href="{{ url_for('index') }}">Light RailLink</a >
+        </button>
+
     </nav>
-    <hr>
+
     <div class="content">
         {% for message in get_flashed_messages() %}
         <div class="alert">{{ message }}</div>

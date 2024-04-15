@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>{% block title %} Upcoming Stops {% endblock %}</h1>
-    <div class="mdc-data-table" style="float: left; width: 25%">
+    <div class="mdc-data-table" style="float: left; width: 55%;">
          <table class="mdc-data-table__table" aria-label="Dessert calories">
             <thead>
                <tr class="mdc-data-table__header-row">
@@ -10,9 +10,10 @@
                     <th class="mdc-data-table__header-cell" role="columnheader" scope="col"> Stop Name</th>
                </tr>
             </thead>
-            {% for stop in stops %}
-             <tbody class="mdc-data-table__content" >
 
+
+             <tbody class="mdc-data-table__content" >
+                {% for stop in stops %}
                  <tr class="mdc-data-table__row" onclick="dataClick(this)" >
                     <td class="mdc-data-table__cell">&ensp;{{ stop.seq }}</td>
                     <td class="mdc-data-table__cell">&ensp;{{ stop.name|title }}</td>
@@ -24,13 +25,26 @@
     </div>
     <script>
     function dataClick(row){
-        alert(row.innerHTML);
+
+        //have the stop number, need to get the location data so i can put it into the map
+        console.log(row.innerHTML.toString().trim().substring(34,36).replace('<',''));
+
+        //basic highlightable script, need css to change
+       if( row.classList.contains("highlight")){
+            row.classList.remove("highlight");
+            //add maps marker
+            
+       }
+       else{
+        row.classList.add("highlight");
+        //remove maps marker
+       }
 
 
     }
     </script>
 
-    <div id="map" style="float: right; width: 75%;height: 600px;position:relative;"></div>
+    <div id="map" style="float: right; width: 45%;height: 600px;position:relative;"></div>
     <script>
         const key = "{{ gKey }}";
         (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
@@ -44,12 +58,12 @@
         let map;
 
         async function initMap() {
-        
-        // Bus location    
+
+        // Bus location
         const latitude = {{ vehicleLat }};
         const longitude = {{ vehicleLong }};
         const position = { lat: latitude, lng: longitude };
-        
+
         //Generate map and marker elements
         const { Map } = await google.maps.importLibrary("maps");
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -61,11 +75,19 @@
             mapId: "MAP ---",
         });
 
+        //map marker background
+        const stopNumber= document.createElement("div");
+
+        stopNumber.className = "stop-num";
+        stopNumber.textContent = "Current Location";
+
+
         // Initialize marker
         const marker = new AdvancedMarkerElement({
             map: map,
             position: position,
             title: "BUS ---",
+            content:stopNumber,
         });
         }
 

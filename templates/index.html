@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Vehicles {% endblock %}</h1>
-    <div class="mdc-data-table">
+    <h1>{% block title %} Local Bus Routes {% endblock %}</h1>
+    <div class="mdc-data-table" style="width:85%;">
       <table class="mdc-data-table__table" aria-label="Dessert calories">
         <thead>
           <tr class="mdc-data-table__header-row">
@@ -16,9 +16,13 @@
           {% for vehicle in vehicles %}
           <tr class="mdc-data-table__row">
             <td class="mdc-data-table__cell">{{ vehicle.busId }}</td>
-            <td class="mdc-data-table__cell">{{ vehicle.name }}</td>
+            <td class="mdc-data-table__cell" >{{ vehicle.name }}</td>
             <td class="mdc-data-table__cell">{{ vehicle.occupancy }}</td>
-            <td class="mdc-data-table__cell"><a href="{{ url_for('tripupdate', id=vehicle.tripId) }}">See stops</a></td>
+            <td class="mdc-data-table__cell">
+              <button class="button" >
+               <a style="color: #FFFFFF;" href="{{ url_for('tripupdate', id=vehicle.tripId) }}" >See stops</a>
+              </button>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
