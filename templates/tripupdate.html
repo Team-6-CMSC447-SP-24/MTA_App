@@ -55,42 +55,94 @@
         });
 
         // Initialize and add the map
-        let map;
+        let map, infoWindow;
 
         async function initMap() {
 
-        // Bus location
-        const latitude = {{ vehicleLat }};
-        const longitude = {{ vehicleLong }};
-        const position = { lat: latitude, lng: longitude };
+            // Bus location
+            const latitude = {{ vehicleLat }};
+            const longitude = {{ vehicleLong }};
+            const position = { lat: latitude, lng: longitude };
 
-        //Generate map and marker elements
-        const { Map } = await google.maps.importLibrary("maps");
-        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+            //Generate map and marker elements
+            const { Map } = await google.maps.importLibrary("maps");
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-        //Initialize map
-        map = new Map(document.getElementById("map"), {
-            zoom: 17,
-            center: position,
-            mapId: "MAP ---",
-        });
+            //Initialize map
+            map = new Map(document.getElementById("map"), {
+                zoom: 17,
+                center: position,
+                mapId: "MAP ---",
+            });
 
-        //map marker background
-        const stopNumber= document.createElement("div");
+            //map marker background
+            const stopNumber= document.createElement("div");
 
-        stopNumber.className = "stop-num";
-        stopNumber.textContent = "Current Location";
+            stopNumber.className = "stop-num";
+            stopNumber.textContent = "Current Location";
 
 
-        // Initialize marker
-        const marker = new AdvancedMarkerElement({
-            map: map,
-            position: position,
-            title: "BUS ---",
-            content:stopNumber,
-        });
+            // Initialize marker
+            const marker1 = new AdvancedMarkerElement({
+                map: map,
+                position: position,
+                title: "BUS ---",
+                content:stopNumber,
+            });
+
+            // Initialize info window to display location retrieval errors
+            infoWindow = new google.maps.InfoWindow();
+
+            // Retrieve user location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userPosition = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+
+                        // Initialize user location marker
+                        const marker2 = new AdvancedMarkerElement({
+                            map: map,
+                            position: userPosition,
+                            title: "Current User Location",
+                        });
+
+                        // Create a new LatLngBounds object
+                        const bounds = new google.maps.LatLngBounds();
+
+                        // Extend the bounds to include each marker's position
+                        bounds.extend(marker1.position);
+                        bounds.extend(marker2.position);
+
+                        // Now fit the map to the included bounds
+                        map.fitBounds(bounds);
+                    },
+                    (error) => {
+                        handleLocationError(true, infoWindow, map.center);
+                    }
+                );
+            } else {
+                handleLocationError(false, infoWindow, map.center);
+            }
+
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) { 
+            infoWindow.setPosition(pos);
+            
+            if (browserHasGeolocation) {
+                infoWindow.setContent("Error: Failed to retrieve user geolocation, please allow location access.");
+            }
+            else {
+                infoWindow.setContent("Error: Your browser doesn't support geolocation.");
+            }
+            
+            infoWindow.open(map);
         }
 
         initMap();
+
     </script>
 {% endblock %}
