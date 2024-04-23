@@ -5,6 +5,7 @@ import zipfile
 import io
 import os
 from datetime import datetime
+import bcrypt
 
 def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
     routes = []
@@ -136,20 +137,48 @@ def updateResourceFiles():
             else:
                 print(f"{file_name} not found in the ZIP file")
 
+def hashPassword(password):
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(password.encode(),salt)
+    return (hash, salt)
 
-if __name__ == "__main__":
-    updateResourceFiles()
-    
+def authenticate(username, password, hashed_password, salt):
+    input_hash = bcrypt.hashpw(password.encode(), salt)
+    if input_hash == hashed_password:
+        return True
+    else:
+        return False
+
+if __name__ == "__main__":    
     connection = sqlite3.connect('database.db')
     with open('schema.sql') as f:
         connection.executescript(f.read())
     cur = connection.cursor()
+    
+    # updateResourceFiles()
 
     initRoutesTable(cur)
     initTripsTable(cur)
     initStopsTable(cur)
 
-    print("Successful init")
+    # print("Successful init")
+    
+    logins = [{"username":"admin", "password": "admin"}, 
+              {"username":"test", "password": "test"}, 
+              {"username":"randall", "password": "CorrectHorseBatteryStaple"}
+              ]
+    
+    passwordBytes = logins[0]["password"]
+    hash, salt = hashPassword(passwordBytes)
+    print(f"Username: {logins[0]['username']}\n\tHash: {hash}\n\tSalt: {salt}")
+        
+    username_input = input("\nEnter username: ")
+    password_input = input("Enter password: ")
+    hashed_password_test, salt_test = hashPassword(logins[0]["password"])
+    if authenticate(username_input, password_input, hashed_password_test, salt_test):
+        print("Logging in")
+    else:
+        print("Login failed")
     
     connection.commit()
     connection.close()

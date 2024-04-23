@@ -28,7 +28,16 @@ def tripupdate(id):
     long = thisVehicle.longitude
 
     return render_template('tripupdate.html', stops=theseStops, vehicleLat=lat, vehicleLong=long, gKey=google_key)
-    
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Invalid credentials. Please try again.'
+        else:
+            return redirect(url_for('index'))
+    return render_template('login.html', error=error)
 
 if __name__ == "__main__":
     app.run(debug=True)
