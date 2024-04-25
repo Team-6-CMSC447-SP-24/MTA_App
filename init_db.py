@@ -35,7 +35,9 @@ def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
             int(entry["as_route"])
         )
         thisCur.execute(sql, params)
-
+        
+    
+    
     return
 
 def initTripsTable(thisCur: sqlite3.Cursor) -> None:
@@ -137,17 +139,42 @@ def updateResourceFiles():
             else:
                 print(f"{file_name} not found in the ZIP file")
 
-def hashPassword(password):
-    salt = bcrypt.gensalt()
-    hash = bcrypt.hashpw(password.encode(),salt)
-    return (hash, salt)
 
-def authenticate(username, password, hashed_password, salt):
-    input_hash = bcrypt.hashpw(password.encode(), salt)
-    if input_hash == hashed_password:
-        return True
-    else:
-        return False
+def initLoginsTable(thisCur: sqlite3.Cursor) -> None:
+    logins = [{"username":"admin", "password": "admin"}, 
+              {"username":"test", "password": "test"}, 
+              {"username":"randall", "password": "CorrectHorseBatteryStaple"}
+              ]
+    
+    for entry in logins:
+        sql = """
+            INSERT INTO logins 
+            (username, hashed_password) 
+            VALUES (?, ?)
+        """
+        salt = bcrypt.gensalt()
+        hashedPassword = bcrypt.hashpw(entry["password"].encode("utf-8"), salt)
+        params = (
+            entry["username"],
+            bcrypt.hashpw(entry["password"].encode("utf-8"), salt)
+        )
+        thisCur.execute(sql, params)
+
+    return
+
+def authenticate(username: str, password: str, thisCur: sqlite3.Cursor) -> bool:
+    thisCur.execute("SELECT username, hashed_password FROM logins WHERE username = ?", (username,))
+    results = thisCur.fetchall()
+    if results:
+        storedUsername, storedHash = results[0]
+        if bcrypt.checkpw(password.encode("utf-8"), storedHash):
+            return True
+    return False
+
+def findUser(username: str, thisCur: sqlite3.Cursor) -> bool:
+    thisCur.execute("SELECT username, hashed_password FROM logins WHERE username = ?", (username,))
+    return thisCur.fetchall()
+    
 
 if __name__ == "__main__":    
     connection = sqlite3.connect('database.db')
@@ -155,30 +182,26 @@ if __name__ == "__main__":
         connection.executescript(f.read())
     cur = connection.cursor()
     
-    # updateResourceFiles()
+    updateResourceFiles()
 
     initRoutesTable(cur)
     initTripsTable(cur)
     initStopsTable(cur)
+    initLoginsTable(cur)
+    
+    # thisUser = input("Username: ")
+    # if not findUser(thisUser, cur):
+    #     print("Invalid user")
+    # else:
+    #     thisPassword = input("Password: ")
+    #     if authenticate(thisUser, thisPassword, cur):
+    #         print(f"Valid login")
+    #     else:
+    #         print(f"Invalid login")
+    
+    print("Successful init")
+    
 
-    # print("Successful init")
-    
-    logins = [{"username":"admin", "password": "admin"}, 
-              {"username":"test", "password": "test"}, 
-              {"username":"randall", "password": "CorrectHorseBatteryStaple"}
-              ]
-    
-    passwordBytes = logins[0]["password"]
-    hash, salt = hashPassword(passwordBytes)
-    print(f"Username: {logins[0]['username']}\n\tHash: {hash}\n\tSalt: {salt}")
-        
-    username_input = input("\nEnter username: ")
-    password_input = input("Enter password: ")
-    hashed_password_test, salt_test = hashPassword(logins[0]["password"])
-    if authenticate(username_input, password_input, hashed_password_test, salt_test):
-        print("Logging in")
-    else:
-        print("Login failed")
     
     connection.commit()
     connection.close()
