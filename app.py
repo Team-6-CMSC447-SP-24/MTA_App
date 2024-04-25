@@ -29,6 +29,12 @@ def tripupdate(id):
 
     return render_template('tripupdate.html', stops=theseStops, vehicleLat=lat, vehicleLong=long, gKey=google_key)
 
+@app.route('/<string:t_stop>/searchstops', methods=('GET', 'POST'))
+def search(t_stop):
+    rtVehicles = searchStopName(t_stop, getRealTimeTripUpdates(), getRealTimeVehiclePositions())
+    vehiclesTable = ParseVehicles(rtVehicles)
+    return render_template('index.html', vehicles=vehiclesTable)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
