@@ -1,11 +1,13 @@
 # MTA_App
 
 ## Run Instructions
-* Create virtual environment: <br>
+* Create and configure virtual environment: <br>
   + ex: python -m venv venv <br>
   + venv\Scripts\activate <br>
   + pip install flask
   + pip install requests
+  + pip install zipfile
+  + pip install bcrypt
   + set FLASK_APP=app
   + set FLASK_ENV=development
 * python init_db.py <br>
