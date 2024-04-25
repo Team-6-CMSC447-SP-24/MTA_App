@@ -49,3 +49,9 @@ CREATE TABLE routes (
     network_id TEXT,
     as_route INTEGER
 );
+
+DROP TABLE IF EXISTS logins;
+CREATE TABLE logins (
+    username TEXT NOT NULL,
+    hashed_password TEXT NOT NULL
+);
