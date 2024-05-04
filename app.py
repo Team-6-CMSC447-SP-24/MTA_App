@@ -2,8 +2,14 @@ from flask import Flask, render_template, request, url_for, flash, redirect, abo
 from api_utils import *
 from credentials import google_key
 
+isLoggedIn = False
+currentUser = None
 
 app = Flask(__name__)
+@app.context_processor
+def inject_user(): # Allows for passing in login status for all pages
+    return dict(isLoggedIn=isLoggedIn, currentUser=currentUser)
+
 @app.route('/')
 def index():
     rtVehicles = getRealTimeVehiclePositions()
@@ -37,13 +43,30 @@ def search(t_stop):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    global currentUser
+    global isLoggedIn
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid credentials. Please try again.'
+        username = request.form['username']
+        password = request.form['password']
+        if not findUser(username):
+            error = 'Invalid user. Please try again.'
+        elif not isValidLogin(username, password):
+            error = 'Invalid password.'
         else:
+            isLoggedIn = True
+            currentUser = username
+            print(f"[LOGIN] Current user: {currentUser}")
             return redirect(url_for('index'))
     return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    global isLoggedIn
+    global currentUser
+    isLoggedIn = False
+    currentUser = None
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)

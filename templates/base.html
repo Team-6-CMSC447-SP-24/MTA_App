@@ -15,17 +15,30 @@
     <hr/>
     <nav class = "nav-bar">
 
-
-        <button class="button" >
-                <a  href="{{ url_for('index') }}">Local Bus Routes</a >
-        </button>
-         <button class="button" >
-                <a  href="{{ url_for('index') }}">MARC Train</a >
-        </button>
-         <button class="button" >
-                <a  href="{{ url_for('index') }}">Light RailLink</a >
-        </button>
-
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <button class="button" >
+                        <a  href="{{ url_for('index') }}">Local Bus Routes</a >
+                </button>
+                <button class="button" >
+                        <a  href="{{ url_for('index') }}">MARC Train</a >
+                </button>
+                <button class="button" >
+                        <a  href="{{ url_for('index') }}">Light RailLink</a >
+                </button>
+            </div>
+            <div>
+                {% if not isLoggedIn %}
+                <button class="button" style="text-align: right; margin-right: 40px;">
+                    <a  href="{{ url_for('login') }}">Log in</a >
+                </button>
+                {% else %}
+                    <button class="button" style="text-align: right; margin-right: 40px;">
+                        <a  href="{{ url_for('logout') }}">Log out</a >
+                    </button>
+                {% endif %}
+            </div>
+        </div>
     </nav>
 
     <div class="content">
