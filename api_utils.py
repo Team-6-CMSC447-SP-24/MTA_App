@@ -218,7 +218,7 @@ def searchStopName(stop_name, trips: list[Trip], vehicles : list[Vehicle]): #Can
                         acceptedVehicles.append(vehicle)
     return acceptedVehicles
 
-def authenticate(username: str, password: str) -> bool:
+def isValidLogin(username: str, password: str) -> bool:
     connection = sqlite3.connect(database)
     cur = connection.cursor()
 
@@ -251,7 +251,7 @@ def main() -> None:
         print("Invalid user")
     else:
         thisPassword = input("Password: ")
-        if authenticate(thisUser, thisPassword):
+        if isValidLogin(thisUser, thisPassword):
             print(f"Valid login")
         else:
             print(f"Invalid login")
