@@ -6,8 +6,14 @@ import io
 import os
 from datetime import datetime
 import bcrypt
+database = 'database.db'
 
-def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
+def initRoutesTable() -> None:
+    connection = sqlite3.connect(database)
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+    cur = connection.cursor()
+    
     routes = []
     with open("resources/routes.txt", "r") as f:
         reader = csv.DictReader(f, delimiter=",")
@@ -34,13 +40,18 @@ def initRoutesTable(thisCur: sqlite3.Cursor) -> None:
             entry["network_id"],
             int(entry["as_route"])
         )
-        thisCur.execute(sql, params)
-        
-    
-    
+        cur.execute(sql, params)
+
+    connection.commit()
+    connection.close()
     return
 
-def initTripsTable(thisCur: sqlite3.Cursor) -> None:
+def initTripsTable() -> None:
+    connection = sqlite3.connect(database)
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+    cur = connection.cursor()
+
     trips = []
     with open("resources/trips.txt", "r") as f:
         reader = csv.DictReader(f, delimiter=",")
@@ -65,11 +76,18 @@ def initTripsTable(thisCur: sqlite3.Cursor) -> None:
             int(entry["wheelchair_accessible"]),
             int(entry["bikes_allowed"]),
         )
-        thisCur.execute(sql, params)
-        
+        cur.execute(sql, params)
+
+    connection.commit()
+    connection.close()
     return
 
-def initStopsTable(thisCur: sqlite3.Cursor) -> None:
+def initStopsTable() -> None:
+    connection = sqlite3.connect(database)
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+    cur = connection.cursor()
+    
     stops = []
     with open("resources/stops.txt", "r") as f:
         reader = csv.DictReader(f, delimiter=",")
@@ -99,8 +117,10 @@ def initStopsTable(thisCur: sqlite3.Cursor) -> None:
             entry["direction"],
             entry["position"]            
         )
-        thisCur.execute(sql, params)
-        
+        cur.execute(sql, params)
+
+    connection.commit()
+    connection.close()
     return
 
 def updateResourceFiles():
@@ -139,8 +159,12 @@ def updateResourceFiles():
             else:
                 print(f"{file_name} not found in the ZIP file")
 
+def initLoginsTable() -> None:
+    connection = sqlite3.connect(database)
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+    cur = connection.cursor()
 
-def initLoginsTable(thisCur: sqlite3.Cursor) -> None:
     logins = [{"username":"admin", "password": "admin"}, 
               {"username":"test", "password": "test"}, 
               {"username":"randall", "password": "CorrectHorseBatteryStaple"}
@@ -148,7 +172,7 @@ def initLoginsTable(thisCur: sqlite3.Cursor) -> None:
     
     for entry in logins:
         sql = """
-            INSERT INTO logins 
+            INSERT INTO logins
             (username, hashed_password) 
             VALUES (?, ?)
         """
@@ -157,25 +181,19 @@ def initLoginsTable(thisCur: sqlite3.Cursor) -> None:
             entry["username"],
             bcrypt.hashpw(entry["password"].encode("utf-8"), salt)
         )
-        thisCur.execute(sql, params)
+        cur.execute(sql, params)
 
+    connection.commit()
+    connection.close()
     return
     
 
 if __name__ == "__main__":
-    connection = sqlite3.connect('database.db')
-    with open('schema.sql') as f:
-        connection.executescript(f.read())
-    cur = connection.cursor()
-    
-    # updateResourceFiles()
+    updateResourceFiles()
 
-    initRoutesTable(cur)
-    initTripsTable(cur)
-    initStopsTable(cur)
-    initLoginsTable(cur)
+    initRoutesTable()
+    initTripsTable()
+    initStopsTable()
+    initLoginsTable()
     
     print("Successful init")
-
-    connection.commit()
-    connection.close()
