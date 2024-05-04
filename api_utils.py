@@ -4,6 +4,7 @@ import sqlite3
 from mta_classes import Vehicle, Trip
 from flask import Flask, render_template, request
 from credentials import mta_key, google_key
+import bcrypt
 
 database = 'database.db'
 swiftlyConnection = http.client.HTTPSConnection("api.goswift.ly")
@@ -216,12 +217,41 @@ def searchStopName(stop_name, trips: list[Trip], vehicles : list[Vehicle]): #Can
                         acceptedVehicles.append(vehicle)
     return acceptedVehicles
 
+def authenticate(username: str, password: str, thisCur: sqlite3.Cursor) -> bool:
+    thisCur.execute("SELECT username, hashed_password FROM logins WHERE username = ?", (username,))
+    results = thisCur.fetchall()
+    if results:
+        storedUsername, storedHash = results[0]
+        if bcrypt.checkpw(password.encode("utf-8"), storedHash):
+            return True
+    return False
+
+def findUser(username: str, thisCur: sqlite3.Cursor) -> bool:
+    thisCur.execute("SELECT username, hashed_password FROM logins WHERE username = ?", (username,))
+    return thisCur.fetchall()
+
 def main() -> None:
+    connection = sqlite3.connect('database.db')
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+    cur = connection.cursor()
     # rtVehicles = getRealTimeVehiclePositions()
-    rtTrips = getRealTimeTripUpdates()
+    # rtTrips = getRealTimeTripUpdates()
     # showAllVehicles(rtVehicles)
-    showAllTrips(rtTrips)
+    # showAllTrips(rtTrips)
     
+    thisUser = input("Username: ")
+    if not findUser(thisUser, cur):
+        print("Invalid user")
+    else:
+        thisPassword = input("Password: ")
+        if authenticate(thisUser, thisPassword, cur):
+            print(f"Valid login")
+        else:
+            print(f"Invalid login")
+
+    connection.commit()
+    connection.close()
 
 if __name__ == "__main__":
     main()

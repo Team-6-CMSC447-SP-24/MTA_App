@@ -153,7 +153,6 @@ def initLoginsTable(thisCur: sqlite3.Cursor) -> None:
             VALUES (?, ?)
         """
         salt = bcrypt.gensalt()
-        hashedPassword = bcrypt.hashpw(entry["password"].encode("utf-8"), salt)
         params = (
             entry["username"],
             bcrypt.hashpw(entry["password"].encode("utf-8"), salt)
@@ -161,47 +160,22 @@ def initLoginsTable(thisCur: sqlite3.Cursor) -> None:
         thisCur.execute(sql, params)
 
     return
-
-def authenticate(username: str, password: str, thisCur: sqlite3.Cursor) -> bool:
-    thisCur.execute("SELECT username, hashed_password FROM logins WHERE username = ?", (username,))
-    results = thisCur.fetchall()
-    if results:
-        storedUsername, storedHash = results[0]
-        if bcrypt.checkpw(password.encode("utf-8"), storedHash):
-            return True
-    return False
-
-def findUser(username: str, thisCur: sqlite3.Cursor) -> bool:
-    thisCur.execute("SELECT username, hashed_password FROM logins WHERE username = ?", (username,))
-    return thisCur.fetchall()
     
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     connection = sqlite3.connect('database.db')
     with open('schema.sql') as f:
         connection.executescript(f.read())
     cur = connection.cursor()
     
-    updateResourceFiles()
+    # updateResourceFiles()
 
     initRoutesTable(cur)
     initTripsTable(cur)
     initStopsTable(cur)
     initLoginsTable(cur)
     
-    # thisUser = input("Username: ")
-    # if not findUser(thisUser, cur):
-    #     print("Invalid user")
-    # else:
-    #     thisPassword = input("Password: ")
-    #     if authenticate(thisUser, thisPassword, cur):
-    #         print(f"Valid login")
-    #     else:
-    #         print(f"Invalid login")
-    
     print("Successful init")
-    
 
-    
     connection.commit()
     connection.close()
