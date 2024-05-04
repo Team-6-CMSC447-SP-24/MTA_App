@@ -60,13 +60,40 @@ def login():
             return redirect(url_for('index'))
     return render_template('login.html', error=error)
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET'])
 def logout():
     global isLoggedIn
     global currentUser
     isLoggedIn = False
     currentUser = None
     return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    global isLoggedIn
+    global currentUser
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'Password is required.'
+        elif password != confirm_password:
+            error = 'Passwords do not match.'
+        elif findUser(username):
+            error = 'User already exists.'
+        else:
+            isLoggedIn = True
+            currentUser = username
+            print(registerUser(username, password))
+            return redirect(url_for('index'))
+    
+    return render_template('register.html', error=error)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

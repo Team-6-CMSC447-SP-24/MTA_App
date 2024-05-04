@@ -240,6 +240,25 @@ def findUser(username: str) -> bool:
     connection.close()
     return results
 
+def registerUser(username: str, password: str) -> None:
+    connection = sqlite3.connect(database)
+    cur = connection.cursor()
+
+    sql = """
+        INSERT INTO logins
+        (username, hashed_password) 
+        VALUES (?, ?)
+    """
+    salt = bcrypt.gensalt()
+    params = (
+        username,
+        bcrypt.hashpw(password.encode("utf-8"), salt)
+    )
+    cur.execute(sql, params)
+    connection.commit()
+    connection.close()
+    return findUser(username)
+
 def main() -> None:
     rtVehicles = getRealTimeVehiclePositions()
     rtTrips = getRealTimeTripUpdates()

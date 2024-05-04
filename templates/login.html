@@ -8,6 +8,13 @@
             <input type="text" placeholder="Username" name="username" value="{{request.form.username}}">
             <input type="password" placeholder="Password" name="password" value="{{request.form.password}}">
             <input class="btn btn-default" type="submit" value="Login">
+            
+            {% if not isLoggedIn %}
+            <button class="btn btn-default">
+                <a  href="{{ url_for('register') }}" style="color: white;">Register</a >
+            </button>
+            {% endif %}
+            
         </form>
         {% if error %}
             <p class="error"><strong>Error:</strong> {{ error }}
