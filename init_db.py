@@ -8,11 +8,7 @@ from datetime import datetime
 import bcrypt
 database = 'database.db'
 
-def initRoutesTable() -> None:
-    connection = sqlite3.connect(database)
-    with open('schema.sql') as f:
-        connection.executescript(f.read())
-    cur = connection.cursor()
+def initRoutesTable(cur: sqlite3.Cursor) -> None:
     
     routes = []
     with open("resources/routes.txt", "r") as f:
@@ -41,16 +37,9 @@ def initRoutesTable() -> None:
             int(entry["as_route"])
         )
         cur.execute(sql, params)
-
-    connection.commit()
-    connection.close()
     return
 
-def initTripsTable() -> None:
-    connection = sqlite3.connect(database)
-    with open('schema.sql') as f:
-        connection.executescript(f.read())
-    cur = connection.cursor()
+def initTripsTable(cur: sqlite3.Cursor) -> None:
 
     trips = []
     with open("resources/trips.txt", "r") as f:
@@ -77,16 +66,9 @@ def initTripsTable() -> None:
             int(entry["bikes_allowed"]),
         )
         cur.execute(sql, params)
-
-    connection.commit()
-    connection.close()
     return
 
-def initStopsTable() -> None:
-    connection = sqlite3.connect(database)
-    with open('schema.sql') as f:
-        connection.executescript(f.read())
-    cur = connection.cursor()
+def initStopsTable(cur: sqlite3.Cursor) -> None:
     
     stops = []
     with open("resources/stops.txt", "r") as f:
@@ -119,8 +101,6 @@ def initStopsTable() -> None:
         )
         cur.execute(sql, params)
 
-    connection.commit()
-    connection.close()
     return
 
 def updateResourceFiles():
@@ -159,11 +139,7 @@ def updateResourceFiles():
             else:
                 print(f"{file_name} not found in the ZIP file")
 
-def initLoginsTable() -> None:
-    connection = sqlite3.connect(database)
-    with open('schema.sql') as f:
-        connection.executescript(f.read())
-    cur = connection.cursor()
+def initLoginsTable(cur: sqlite3.Cursor) -> None:
 
     logins = [{"username":"admin", "password": "admin"}, 
               {"username":"test", "password": "test"}, 
@@ -182,18 +158,23 @@ def initLoginsTable() -> None:
             bcrypt.hashpw(entry["password"].encode("utf-8"), salt)
         )
         cur.execute(sql, params)
-
-    connection.commit()
-    connection.close()
     return
     
 
 if __name__ == "__main__":
-    updateResourceFiles()
+    # updateResourceFiles()
 
-    initRoutesTable()
-    initTripsTable()
-    initStopsTable()
-    initLoginsTable()
+    connection = sqlite3.connect(database)
+    with open('schema.sql') as f:
+        connection.executescript(f.read())
+    cur = connection.cursor()
+
+    initRoutesTable(cur)
+    initTripsTable(cur)
+    initStopsTable(cur)
+    initLoginsTable(cur)
+
+    connection.commit()
+    connection.close()
     
     print("Successful init")

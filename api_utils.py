@@ -53,6 +53,7 @@ def getRouteName(route_id: str) -> str:
     except sqlite3.Error as e:
         print(f"Error reading from the database: {e}")
     finally:
+        conn.commit()
         conn.close()
     return
 
@@ -240,10 +241,10 @@ def findUser(username: str) -> bool:
     return results
 
 def main() -> None:
-    # rtVehicles = getRealTimeVehiclePositions()
-    # rtTrips = getRealTimeTripUpdates()
-    # showAllVehicles(rtVehicles)
-    # showAllTrips(rtTrips)
+    rtVehicles = getRealTimeVehiclePositions()
+    rtTrips = getRealTimeTripUpdates()
+    showAllVehicles(rtVehicles)
+    showAllTrips(rtTrips)
     
     thisUser = input("Username: ")
     if not findUser(thisUser):
