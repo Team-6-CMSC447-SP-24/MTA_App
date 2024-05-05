@@ -52,6 +52,12 @@ CREATE TABLE routes (
 
 DROP TABLE IF EXISTS logins;
 CREATE TABLE logins (
-    username TEXT NOT NULL,
+    username TEXT PRIMARY KEY NOT NULL,
     hashed_password TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS favorites;
+CREATE TABLE favorites (
+    username TEXT PRIMARY KEY NOT NULL,
+    route_name TEXT NOT NULL
 );
