@@ -59,5 +59,6 @@ CREATE TABLE logins (
 DROP TABLE IF EXISTS favorites;
 CREATE TABLE favorites (
     username TEXT PRIMARY KEY NOT NULL,
-    route_name TEXT NOT NULL
+    route_name TEXT NOT NULL,
+    route_id TEXT NOT NULL
 );
