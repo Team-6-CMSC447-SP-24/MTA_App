@@ -94,6 +94,22 @@ def register():
     
     return render_template('register.html', error=error)
 
+@app.route('/<int:id>/addfavorite')
+def addfavorite(id):
+    routeId = getRouteFromTripId(id)
+    routeName = getRouteName(routeId)
+    addFavoriteRoute(currentUser, routeName, routeId)
+
+    conn = sqlite3.connect(database)
+    cursor = conn.cursor()
+    query = "SELECT * FROM favorites"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+    conn.close()
+
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True)
