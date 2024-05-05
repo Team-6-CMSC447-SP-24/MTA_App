@@ -10,6 +10,9 @@
             <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Route Name</th>
             <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Occupancy</th>
             <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Trip Updates</th>
+            {% if isLoggedIn %}
+              <th class="mdc-data-table__header-cell" role="columnheader" scope="col">Add Favorite</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody class="mdc-data-table__content">
@@ -23,6 +26,13 @@
                <a style="color: #FFFFFF;" href="{{ url_for('tripupdate', id=vehicle.tripId) }}" >See stops</a>
               </button>
             </td>
+            {% if isLoggedIn %}
+            <td class="mdc-data-table__cell">
+              <button class="button">
+                <a style="color: #FFFFFF;" href="{{ url_for('addfavorite', id=vehicle.tripId) }}" >&#9733;</i></a>
+              </button>
+            </td>
+            {% endif %}
           </tr>
           {% endfor %}
         </tbody>
