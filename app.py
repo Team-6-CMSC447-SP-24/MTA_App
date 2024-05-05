@@ -110,6 +110,14 @@ def addfavorite(id):
     conn.close()
 
     return redirect(url_for('index'))
+@app.route('/<string:user>/favorites')
+def favorites(user: str):
+    if isLoggedIn:
+        userFavorites = getAllFavorites(user)
+        return render_template('favorites.html', favorites=userFavorites)
+    else:
+        print(f"Not logged in.")
+        return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug=True)
