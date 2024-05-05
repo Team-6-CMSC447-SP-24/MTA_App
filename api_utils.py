@@ -169,6 +169,18 @@ def showAllTrips(tripsList: list[Trip]) -> None:
             count +=1
     return
 
+def getRouteFromTripId(tripId: int) -> str:
+    connection = sqlite3.connect(database)
+    cur = connection.cursor()
+    cur.execute("SELECT route_id FROM trips WHERE trip_id = ?", (tripId,))
+    result = cur.fetchone()
+    connection.close()
+
+    if result:
+        return str(result[0])
+    else:
+        return None
+
 def showAllVehicles(vehiclesList: list[Vehicle]) -> None:
     for vehicle in vehiclesList:
         thisRouteName = getRouteName(vehicle.routeId)
@@ -240,24 +252,43 @@ def findUser(username: str) -> bool:
     connection.close()
     return results
 
-def registerUser(username: str, password: str) -> None:
+def registerUser(username: str, password: str):
     connection = sqlite3.connect(database)
     cur = connection.cursor()
 
-    sql = """
-        INSERT INTO logins
-        (username, hashed_password) 
-        VALUES (?, ?)
-    """
+    sql = """INSERT INTO logins (username, hashed_password) VALUES (?, ?)"""
     salt = bcrypt.gensalt()
-    params = (
-        username,
-        bcrypt.hashpw(password.encode("utf-8"), salt)
-    )
+    params = (username, bcrypt.hashpw(password.encode("utf-8"), salt))
+    
     cur.execute(sql, params)
     connection.commit()
     connection.close()
     return findUser(username)
+
+def addFavoriteRoute(username: str, routeName: str, routeId: str):
+    connection = sqlite3.connect(database)
+    cur = connection.cursor()
+
+    if not isAlreadyFavorite(username, routeId):
+        sql = """INSERT INTO favorites (username, route_name, route_id) VALUES (?, ?, ?)"""
+        params = (username, routeName, routeId)
+        cur.execute(sql, params)
+    else:
+        print(f"Route already favorited.")
+    connection.commit()
+    connection.close()
+    return 
+
+def isAlreadyFavorite(username: str, routeId: str):
+    connection = sqlite3.connect(database)
+    cur = connection.cursor()
+    query = "SELECT route_id FROM favorites WHERE username = ? AND route_id = ?"
+    cur.execute(query, (username, routeId))
+    row = cur.fetchone()
+    if row:
+        return True
+    else:
+        return False
 
 def main() -> None:
     rtVehicles = getRealTimeVehiclePositions()
