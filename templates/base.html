@@ -33,6 +33,9 @@
                     <a  href="{{ url_for('login') }}">Log in</a >
                 </button>
                 {% else %}
+                    <button class="button" style="text-align: right;">
+                        <a  href="{{ url_for('favorites', user=currentUser) }}">Saved Routes</a >
+                    </button>
                     <button class="button" style="text-align: right; margin-right: 40px;">
                         <a  href="{{ url_for('logout') }}">Log out</a >
                     </button>
