@@ -290,6 +290,19 @@ def isAlreadyFavorite(username: str, routeId: str):
     else:
         return False
 
+def getAllFavorites(username:str) ->list[dict[str, str]]:
+    favorites = []
+    connection = sqlite3.connect(database)
+    cur = connection.cursor()
+    query = "SELECT * FROM favorites WHERE username = ?"
+    cur.execute(query, (username,))
+    results = cur.fetchall()
+    if results:
+        for favorite in results:
+            thisFavorite = {'routeName': favorite[1], 'routeId': favorite[2]}
+            favorites.append(thisFavorite)
+    return favorites
+
 def main() -> None:
     rtVehicles = getRealTimeVehiclePositions()
     rtTrips = getRealTimeTripUpdates()
