@@ -13,36 +13,42 @@
 
     <div class="title">MTA Tracker</div>
     <hr/>
-    <nav class = "nav-bar">
-
+    <nav class="nav-bar">
         <div style="display: flex; justify-content: space-between;">
             <div>
-                <button class="button" >
-                        <a  href="{{ url_for('index') }}">Local Bus Routes</a >
+                <button class="button">
+                    <a href="{{ url_for('index') }}">Local Bus Routes</a>
                 </button>
-                <button class="button" >
-                        <a  href="{{ url_for('index') }}">MARC Train</a >
+                <button class="button">
+                    <a href="{{ url_for('index') }}">MARC Train</a>
                 </button>
-                <button class="button" >
-                        <a  href="{{ url_for('index') }}">Light RailLink</a >
+                <button class="button">
+                    <a href="{{ url_for('index') }}">Light RailLink</a>
                 </button>
             </div>
             <div>
                 {% if not isLoggedIn %}
                 <button class="button" style="text-align: right; margin-right: 40px;">
-                    <a  href="{{ url_for('login') }}">Log in</a >
+                    <a href="{{ url_for('login') }}">Log in</a>
                 </button>
                 {% else %}
-                    <button class="button" style="text-align: right;">
-                        <a  href="{{ url_for('favorites', user=currentUser) }}">Saved Routes</a >
-                    </button>
-                    <button class="button" style="text-align: right; margin-right: 40px;">
-                        <a  href="{{ url_for('logout') }}">Log out</a >
-                    </button>
+                <button class="button" style="text-align: right;">
+                    <a href="{{ url_for('favorites', user=currentUser) }}">Saved Routes</a>
+                </button>
+                <button class="button" style="text-align: right; margin-right: 40px;">
+                    <a href="{{ url_for('logout') }}">Log out</a>
+                </button>
                 {% endif %}
             </div>
         </div>
     </nav>
+
+    <div class="search-bar">
+        <form action="{{ url_for('search', t_stop='PLACEHOLDER') }}" method="post">
+            <input type="text" placeholder="Search Stops" name="stop_name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
     <div class="content">
         {% for message in get_flashed_messages() %}
@@ -51,5 +57,6 @@
 
         {% block content %} {% endblock %}
     </div>
+
 </body>
 </html>

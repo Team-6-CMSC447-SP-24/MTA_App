@@ -35,7 +35,6 @@ body {
   margin: 0 auto;
   background-color:#f5f5f5;
   box-shadow: 0 0 0 000000;
-
 }
 
 hr {
@@ -55,6 +54,37 @@ h1 {
   margin: 0 auto;
 }
 
+/* Search Bar */
+.search-bar {
+  text-align: left;
+  width: 100%;
+  background-color: #f5f5f5;
+  margin-left: 0%;
+}
+
+.search-bar form {
+  display: inline-block;
+}
+
+.search-bar input[type="text"] {
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.search-bar button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0092E4;
+  color: white;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #02669e;
+}
 
 /* Material Design buttons */
 .button {
