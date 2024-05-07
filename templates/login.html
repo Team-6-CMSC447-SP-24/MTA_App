@@ -2,22 +2,21 @@
 
 {% block content %}
     <div class="container">
-        <h1>Please login</h1>
-        <br>
+        <h1 class="log-in">Login</h1>
         <form action="" method="post">
-            <input type="text" placeholder="Username" name="username" value="{{request.form.username}}">
-            <input type="password" placeholder="Password" name="password" value="{{request.form.password}}">
-            <input class="btn btn-default" type="submit" value="Login">
-            
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username" name="username" value="{{ request.form.username }}">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password" value="{{ request.form.password }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
             {% if not isLoggedIn %}
-            <button class="btn btn-default">
-                <a  href="{{ url_for('register') }}" style="color: white;">Register</a >
-            </button>
+                <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
             {% endif %}
-            
         </form>
         {% if error %}
-            <p class="error"><strong>Error:</strong> {{ error }}
+            <p class="error"><strong>Error:</strong> {{ error }}</p>
         {% endif %}
     </div>
 {% endblock %}
