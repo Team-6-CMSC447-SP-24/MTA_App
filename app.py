@@ -35,7 +35,7 @@ def tripupdate(id):
 
     return render_template('tripupdate.html', stops=theseStops, vehicleLat=lat, vehicleLong=long, gKey=google_key)
 
-@app.route('/<string:t_stop>/searchstops', methods=('GET', 'POST'))
+@app.route('/search/<string:t_stop>', methods=('GET', 'POST'))
 def search(t_stop):
     rtVehicles = searchStopName(t_stop, getRealTimeTripUpdates(), getRealTimeVehiclePositions())
     vehiclesTable = ParseVehicles(rtVehicles)
