@@ -25,9 +25,9 @@ body {
 /* Material Design nav bar */
 .title {
   font-weight: bold;
-  font-size: 32px;
+  font-size: 2em;
   line-height: 1.5;
-  color:#A85E53;
+  color:#8b3628;
 
 }
 
