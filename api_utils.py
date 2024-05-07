@@ -75,7 +75,7 @@ def getStopName(stop_id: str) -> str:
         print(f"Error reading from the database: {e}")
     finally:
         conn.close()
-    return
+    return "" #prevent none-type
 
 def getStopCoords(stop_id: int) -> tuple[str, str]:
     conn = sqlite3.connect(database)
@@ -208,17 +208,22 @@ def searchRouteName(route_name, vehicles: list[Vehicle]):
             acceptedVehicles.append(vehicle)
     return acceptedVehicles
 
-def findStop(stop_name, currentTrip: Trip) -> int:
-    seqNum = ""
+def findStop(stop_name: str, currentTrip: Trip) -> int:
     name = ""
     theseStops = []
     for i in range (len(currentTrip.stopTimeUpdate)):
-        seqNum = currentTrip.stopTimeUpdate[i]['stopSequence']
-        if stop_name in getStopName(currentTrip.stopTimeUpdate[i]['stopId']):
-            return 1
+        try:
+            stop_id = currentTrip.stopTimeUpdate[i]['stopId']
+            name = getStopName(stop_id)
+            if stop_name in getStopName(currentTrip.stopTimeUpdate[i]['stopId']):
+                return 1
+        except KeyError:
+            print("stopId' not in currentTrip.stopTimeUpdate[i]")
+        except Exception as e:
+            print(f"Error: {e}")
     return 0
 
-def searchStopName(stop_name, trips: list[Trip], vehicles : list[Vehicle]): #Can shorten time complexity if its possible to make a Vehicle variable in Trip
+def searchStopName(stop_name: str, trips: list[Trip], vehicles : list[Vehicle]): #Can shorten time complexity if its possible to make a Vehicle variable in Trip
     acceptedVehicles = []
     vehicleIds = []
     for trip in trips:
