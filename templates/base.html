@@ -44,11 +44,19 @@
     </nav>
 
     <div class="search-bar">
-        <form action="{{ url_for('search', t_stop='PLACEHOLDER') }}" method="post">
-            <input type="text" placeholder="Search Stops" name="stop_name">
-            <button type="submit">Search</button>
+        <form id="search-form" action="{{ url_for('search', t_stop='') }}" method="post">
+            <input type="text" placeholder="Search Stops" name="stop_name" id="stop_name">
+            <button type="submit" onclick="updateFormAction()">Search</button>
         </form>
     </div>
+
+    <script>
+        function updateFormAction() {
+            var userInput = document.getElementById('stop_name').value;
+            var formAction = "/search/" + userInput;
+            document.getElementById('search-form').action = formAction;
+        }
+    </script>
 
     <div class="content">
         {% for message in get_flashed_messages() %}
