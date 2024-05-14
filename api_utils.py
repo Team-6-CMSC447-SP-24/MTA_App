@@ -209,13 +209,9 @@ def searchRouteName(route_name, vehicles: list[Vehicle]):
     return acceptedVehicles
 
 def findStop(stop_name: str, currentTrip: Trip) -> int:
-    name = ""
-    theseStops = []
     for i in range (len(currentTrip.stopTimeUpdate)):
         try:
-            stop_id = currentTrip.stopTimeUpdate[i]['stopId']
-            name = getStopName(stop_id)
-            if stop_name in getStopName(currentTrip.stopTimeUpdate[i]['stopId']):
+            if stop_name.lower() in getStopName(currentTrip.stopTimeUpdate[i]['stopId']).lower():
                 return 1
         except KeyError:
             print("stopId' not in currentTrip.stopTimeUpdate[i]")
