@@ -119,5 +119,35 @@ def favorites(user: str):
         print(f"Not logged in.")
         return redirect(url_for('index'))
 
+@app.route('/<int:id>/route', methods=('GET', 'POST'))
+def route(id):
+    conn = sqlite3.connect(database)
+    cursor = conn.cursor()
+    query = "SELECT trip_id FROM trips WHERE route_id = ?"
+    cursor.execute(query, (id,))
+    rows = cursor.fetchall()
+
+    query = "SELECT route_long_name FROM routes WHERE route_id = ?"
+    cursor.execute(query, (id,))
+    routeName = cursor.fetchall()
+    routeName = routeName[0][0]
+    conn.close()
+
+    rtTrips = getRealTimeTripUpdates()
+    thisTrip = None
+    theseStops = []
+    for trip in rtTrips:
+        for row in rows:
+            if int(trip.tripId) == int(row[0]):
+                thisTrip = trip
+            
+    if (thisTrip != None):
+        theseStops= ParseStops(thisTrip)
+    else:
+        print("Trip data is unavailable")
+
+
+    return render_template('route.html', routeName=routeName, stops=theseStops)
+
 if __name__ == "__main__":
     app.run(debug=True)

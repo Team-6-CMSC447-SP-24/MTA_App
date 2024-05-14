@@ -19,7 +19,7 @@
               <td class="mdc-data-table__cell" >{{ favorite.routeName }}</td>
               <td class="mdc-data-table__cell">
                 <button class="button" >
-                 <a style="color: #FFFFFF;" href="{{ url_for('index') }}" >See Route</a>
+                 <a style="color: #FFFFFF;" href="{{ url_for('route', id=favorite.routeId) }}" >See Route</a>
                 </button>
                 </td>
             </tr>
