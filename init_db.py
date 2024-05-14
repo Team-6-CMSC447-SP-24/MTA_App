@@ -162,7 +162,7 @@ def initLoginsTable(cur: sqlite3.Cursor) -> None:
     
 
 if __name__ == "__main__":
-    # updateResourceFiles()
+    updateResourceFiles()
 
     connection = sqlite3.connect(database)
     with open('schema.sql') as f:
